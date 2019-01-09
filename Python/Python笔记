@@ -216,3 +216,92 @@ Python
 	4.切分字符: re.split(正则表达式, '文本')
 	5.分组: m = re.match(正则表达式, '文本')  若表达式匹配多个组,则可以 m.group(n) 调用
 	6.贪婪匹配: 正则匹配为贪婪匹配
+12.常用内建模块
+	1.Hashlib	1.MD5: md5.update(file.encode('编码')), 常用编码为 UTF-8
+			2.SHA1: sha1.update(file.encode('编码')), 常用编码为 UTF-8
+	2.hmac		1.作用: 使用带 salt 的哈希算法
+			2.代码: h = hmac.new(key, message, digestmod='MD5'), hmac支持SHA1,SHA256等算法
+	3.urllib	1.Get方法	1.构建请求: req = request.Request('url')
+					2.构建HTTP头: req.add_header('User-Agent', 'UA')   
+					3.请求并解析: with request.urlopen('req') as f:  data=f.read()
+			2.Post方法	1.构建登录数据: lgn_dt = parse.urlencode(dict)
+					2.构建请求: req = request.Request('url')
+					3.构建HTTP头: req.add_header(), 依次添加Origin,UA,Referer
+					4.请求并解析: with request.urlopen(req,data=lgn_dt) as f: pass
+13.常用第三方模块
+	1.Pillow: 用作图像处理
+	2.requests: urllib的高级版本
+14.virtualenv
+	1.作用: 创建相互隔离的 Python 运行环境
+	2.代码		1.创建运行环境: virtualenv --no-site-packages name
+			2.启用运行环境: source name/bin/activate
+			3.退出运行环境: deactivate
+15图形界面
+	1.Tkinter包	1.创建Widget容器: class Application(Frame): def... self.pack() 
+			2.创建标签: def...: self.L1=Label(self, text='') self.L1.pack()
+			3.创建按钮: def...: self.B1=Button(self,text='',command=命令) self.B1.pack()
+			4.创建标题: Application().master.title('标题')
+			5.文本输入: self.Input-1 = Entry(self)
+			6.提示消息: messagebox.showinfo('标题', '文本, %s' % var)
+			5.注: pack() 为默认布局
+	2.turtle库
+16.网络编程
+	1.TCP编程	1.客户端	1.创建Socket: socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+					2.连接Socket: s.connect(tuple), 注: tuple=('url', 端口)
+					3.接收数据: bfr=[]... d=s.recv(1024)  bfr.append(d)
+					4.解析数据: header, html = d.split(b'\r\n\r\n', 1)
+			2.服务端	1.创建Socket: s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+					2.监听端口: s.bind(('IP-adr', 端口))   s.listen(最大连接数)
+					3.创建接收器: sck,adr=s.accept() t=threading.Thread(target=?,args)
+					4.处理接收信息:  sock.send(b'信息')   sock.close()
+	2.UDP编程	1.客服端	1.创建Socket: s=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+					2.发送数据: for d in lst: s.sendto(d,('url',端口))
+					3.接收数据: s.recv(1024).decode('utf-8'))
+			2.服务端	1.创建Socket: s=socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+					2.监听端口: s.bind(tuple)     注: tuple = ('IP-adr', 端口)
+					3.接收数据:  data, addr = s.recvfrom(1024)
+					4.发送数据: s.sendto(b'Hello, %s!' % data, addr)
+17.访问数据库
+	1.使用SQLite	1.导入数据库驱动:  import sqlite3
+			2.连接数据库: con = sqlite3.connect('test.db')
+			3.创建游标对象: cursor = con.cursor()
+			4.执行SQL语句	1.执行SQL命令: cursor.execute('SQL命令')
+					2.创建新表: create table user(id varchar(20) primary key,name ...)
+					3.插入记录: insert into user (id, name) values (...)
+					4.关闭Cursor并提交更改: cursor.close() con.commit()  con.close()
+					5.SQL补充	1.varchar(n) 表以可变长度储存,最长不超过20个字节
+							2.primary key 表主键约束
+	2.使用MySQL	1.导入数据库驱动: import mysql.connector (注: 需要先安装)
+			2.连接数据库: con=mysql.connector.connect(user='?',password='?',database='?')
+			3.创建游标对象: cursor = con.cursor()
+18.Web开发
+	1.Web页面	1.HTML定义页面内容
+			2.CSS控制页面元素样式 (<style>? </style>)
+			3.JavaScript负责页面交互逻辑 (<script>?</script>)
+	2.WSGI接口	1.基础函数	1.代码: def app(evrn,srt_rspe): srt_rspe(...) return [bdy]
+					2.注释		1.evrn 表HTTP请求的 dict 对象
+							2.srt_rspe 表发送HTTP响应的函数
+			3.运行WSGI服务	
+	3.使用Web框架	1.使用Flask框架	1.定义主变量: app = Flask(__name__)
+					2.用装饰器定义页面: @app.route('/', methods=['GET', 'POST'])
+					3.对不同方法分别定义函数: @app.route('/路径', methods=['GET'])
+			2.其它框架: Django(全能型Web框架)、web.py（一个小巧的Web框架）
+	4.使用模板	1.MVC：Model-View-Controller，中文名“模型-视图-控制器”
+				1.Python处理URL的函数就是C：Controller，Controller负责业务逻辑
+				2.包含变量的模板是V：View，负责显示逻辑，最终输出用户看到的HTML
+				3.Model传给View，View在替换变量的时候，从Model中取出相应的数据
+			2.Jinja2: Flask默认使用Jinja2模板, 用{% ... %}表示指令
+
+19.异步IO
+	1.协程		1.在同一线程内构建多任务,程序内部中断以 send() 和 yield ()传递参数
+			2.代码实现: def f1:...yield... def f2:...send...
+	2.asyncio	1.coroutine类型: 协程模型,线程执行到 yield from 跳出执行下一coroutine类型
+			2.装饰器 @asyncio.coroutine 把 generator 标记为 coroutine类型
+			3.定义协程: loop = asyncio.get_event_loop()
+			4.多个coroutine可以封装成一组Task然后并发执行, 如tasks = [func(), func()]
+			5.协程运行: loop.run_until_complete(asyncio.wait(tasks))
+	3.async/await	1.Python3.5 以后支持 async/await
+			2.用法	1.@asyncio.coroutine def func():... = async def func():...
+				2.yield from [coroutine] = await [coroutine]
+	4.aiohttp	1.aiohttp 则是基于 asyncio 实现的HTTP框架
+			2.支持 async/await 语法
