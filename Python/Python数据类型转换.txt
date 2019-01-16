@@ -1,0 +1,33 @@
+﻿判断数据类型
+
+type（）
+
+判断对象继承
+
+isinstance()
+
+获取对象所有属性和方法
+
+dir（）
+
+字符串函数：1.判断是否存在某元素
+		object.find（'text'）  或者   str in object
+	    2.字符串切割函数
+		object.split（'text'）
+
+强制数据类型转化
+
+int(x [,base])	⇒	将x转换为一个十进制的整数 
+long(x [,base]) ⇒	将x转换为一个十进制的长整数 
+float(x)	⇒	将x转换为一个浮点数 
+str(object)	⇒	转换为字符串 
+bool(object)	⇒	将对象转化为Bool型
+repr(object)	⇒	转换为表达式字符串 
+eval(str)	⇒	用来计算在字符串中的有效Python表达式,并返回一个对象 
+tuple(seq)	⇒	将序列seq转换为一个元组 
+list(seq)	⇒	将序列seq转换为一个列表 
+chr(x )		⇒	将一个整数转换为一个字符 
+unichr(x )	⇒	将一个整数转换为Unicode字符 
+ord(x )		⇒	将一个字符转换为它的整数值 
+hex(x )		⇒	将一个整数转换为一个十六进制字符串 
+oct(x )		⇒	将一个整数转换为一个八进制字符串
